@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import html2canvas from "html2canvas";
 import { InfoRounded } from "@material-ui/icons";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -86,69 +85,23 @@ const FormInput = () => {
   // const [file, setFile] = useState({ selectedFile: [] });
   const fileChange = (e) => {
     const file = e.target.files[0];
-    SelectItem(file);
-    getFont();
-  };
-
-  const SelectItem = (e) => {
-    const formdata = new FormData();
-    formdata.append("font", e);
-    axios.post("http://localhost:4000/font", formdata);
-  };
-
-  const getFont = () => {
-    axios.get("http://localhost:4000/fonta").then((res) => {
-      console.log("ddd:" + res.data);
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        const newFont = new FontFace("new-font", res.data.blob());
-        newFont
-          .load()
-          .then((loadedFace) => {
-            document.fonts.add(loadedFace);
-            console.log("font///:" + loadedFace);
-            setStyles({ fontFamily: "new-font" });
-            // textareaEl.style.fontFamily = "temp-font";
-          })
-          .catch((e) => console.log(e));
-
-        console.log("bdhdh" + newFont);
-      };
-    });
+    addFontFromFile(file);
   };
 
   const addFontFromFile = (fileObj) => {
-    // console.log(fileObj);
     const reader = new FileReader();
+    reader.readAsArrayBuffer(fileObj);
     reader.onload = (e) => {
-      // console.log(e);
-      const newFont = new FontFace("new-font", fileObj);
+      const newFont = new FontFace("new-font", e.target.result);
       newFont
         .load()
         .then((loadedFace) => {
           document.fonts.add(loadedFace);
-          console.log("font///:" + loadedFace);
           setStyles({ fontFamily: "new-font" });
-          // textareaEl.style.fontFamily = "temp-font";
         })
         .catch((e) => console.log(e));
-
       console.log(newFont);
     };
-    // reader.readAsArrayBuffer(fileObj);
-    // reader.arrayBuffer(fileObj);
-  };
-
-  const font = (file) => {
-    const newF = new FontFace("new-font", file);
-    newF
-      .onload()
-      .then((lof) => {
-        document.fonts.add(lof);
-        console.log("ff" + lof);
-        setStyles({ fontFamily: "new-font" });
-      })
-      .catch((e) => console.log(e));
   };
 
   const download = (e) => {
@@ -242,7 +195,7 @@ const FormInput = () => {
                       role="textbox"
                       style={{
                         fontSize: styles.fontSz + "px",
-                        fontFamily: fontChange.font || "new-font",
+                        fontFamily: fontChange.font,
                         wordSpacing: styles.wordSpacing + "px",
                         paddingTop: styles.paddingTop + "px",
                         color: colorChange.color,
@@ -339,9 +292,6 @@ const FormInput = () => {
                   variant="contained"
                   color="secondary"
                   style={{ marginTop: "20px" }}
-                  className={`blue-B ${
-                    !styles.toggle ? "hide-mobile" : "hide-pc"
-                  } `}
                   onClick={download}
                 >
                   Download note
