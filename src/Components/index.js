@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import html2canvas from "html2canvas";
-import { InfoRounded } from "@material-ui/icons";
+import { InfoRounded, Settings, Photo } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -33,6 +33,8 @@ const FormInput = () => {
     paperLine: true,
   });
   const [anchorEl, setAnchorEl] = useState(false);
+  const [anchorElPhoto, setAnchorElPhoto] = useState(false);
+  const [anchorElSetting, setAnchorElSetting] = useState(false);
   const handleClick = (event) => {
     event.preventDefault();
     setAnchorEl({ anchorEl: true });
@@ -41,9 +43,30 @@ const FormInput = () => {
   const handleClose = () => {
     setAnchorEl(false);
   };
+  const handleClickPhoto = (event) => {
+    event.preventDefault();
+    setAnchorElPhoto({ anchorEl: true });
+  };
+  const handleClosePhoto = () => {
+    setAnchorElPhoto(false);
+  };
 
+  const handleClickSetting = (event) => {
+    event.preventDefault();
+    setAnchorElSetting({ anchorEl: true });
+  };
+
+  const handleCloseSetting = () => {
+    setAnchorElSetting(false);
+  };
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  const openPhoto = Boolean(anchorElPhoto);
+  const idPhoto = openPhoto ? "simple-popover" : undefined;
+
+  const openSetting = Boolean(anchorElSetting);
+  const idSetting = openSetting ? "simple-popover" : undefined;
 
   const [styles, setStyles] = useState({
     border: "",
@@ -166,7 +189,7 @@ const FormInput = () => {
   // console.log(checkbox.paperLine);
 
   return (
-    <div className="container">
+    <div className=" fl">
       <Container style={{ margin: "20px" }}>
         <Grid container spacing={2}>
           <Grid item xs={5} style={{ background: "white" }}>
@@ -227,54 +250,252 @@ const FormInput = () => {
                     </div>
                   </div>
                 </div>
-
-                <InfoRounded
-                  onClick={handleClick}
-                  style={{
-                    color: "black",
-                    fontSize: "30px",
-                    cursor: "pointer",
-                    marginTop: "20px",
-                  }}
-                />
-                <Popover
-                  id={id}
-                  open={open}
-                  onClose={handleClose}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "bottom",
-                    horizontal: "top",
-                  }}
-                >
-                  <Typography className={classes.typography}>
-                    <section className="guide" id="how-to-add-handwriting">
-                      <h2>How to add your own handwriting?</h2>
-                      <ul>
-                        <li>
-                          You will have to generate font of your handwriting.
-                        </li>
-                        <li>
-                          Websites like{" "}
-                          <Link href="https://www.calligraphr.com/en/">
-                            Calligraphr
-                          </Link>{" "}
-                          can let you do that.
-                        </li>
-                        <li>
-                          Once you get .ttf file of your handwriting, upload it
-                          from upload button and boom! you will have your
-                          handwriting in the page.
-                        </li>
-                      </ul>
-                    </section>{" "}
-                  </Typography>{" "}
-                </Popover>
               </div>
+            </div>
+            <div className="fixx">
+              <InfoRounded
+                onClick={handleClick}
+                style={{
+                  fontSize: "30px",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                }}
+              />
+              <Popover
+                id={id}
+                open={open}
+                onClose={handleClose}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "top",
+                }}
+              >
+                <Typography className={classes.typography}>
+                  <section className="guide" id="how-to-add-handwriting">
+                    <h2>How to add your own handwriting?</h2>
+                    <ul>
+                      <li>
+                        You will have to generate font of your handwriting.
+                      </li>
+                      <li>
+                        Websites like{" "}
+                        <Link href="https://www.calligraphr.com/en/">
+                          Calligraphr
+                        </Link>{" "}
+                        can let you do that.
+                      </li>
+                      <li>
+                        Once you get .ttf file of your handwriting, upload it
+                        from upload button and boom! you will have your
+                        handwriting in the page.
+                      </li>
+                    </ul>
+                  </section>{" "}
+                </Typography>{" "}
+              </Popover>
+
+              <Settings
+                className="hide-icon"
+                onClick={handleClickSetting}
+                style={{
+                  fontSize: "30px",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                  marginLeft: "15",
+                }}
+              />
+
+              <Popover
+                id={idSetting}
+                open={openSetting}
+                onClose={handleCloseSetting}
+                anchorEl={anchorElSetting}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "top",
+                }}
+              >
+                <form
+                  className={`${classes.root} m-form`}
+                  style={{
+                    border: styles.border,
+                    background: styles.background,
+                    display: "grid",
+                  }}
+                  onSubmit={generate}
+                >
+                  <label> Add your font </label>
+                  <TextField
+                    variant="outlined"
+                    type="file"
+                    className="form-control mt-3"
+                    name="font"
+                    onChange={fileChange}
+                  />
+                  <label> show margin </label>
+                  <input
+                    defaultChecked
+                    color="primary"
+                    type="checkbox"
+                    className="form-control mt-3"
+                    checked={maginCheckbox.marginToggle}
+                    name="mart"
+                    onChange={marginChange}
+                  />
+
+                  <label> show paper Line</label>
+                  <input
+                    defaultChecked
+                    color="primary"
+                    type="checkbox"
+                    className="form-control mt-3"
+                    value={PaperCheckbox.paperLine}
+                    name="paper"
+                    onChange={paperChange}
+                  />
+                  <label>Font Size</label>
+                  <TextField
+                    variant="outlined"
+                    type="number"
+                    className="form-control mt-3"
+                    min="0"
+                    name="fontSize"
+                    value={input.fontSize ? input.fontSize : "12"}
+                    onChange={handleChange}
+                    placeholder="font size"
+                  />
+                  <label>vertical Position</label>
+                  <TextField
+                    variant="outlined"
+                    type="number"
+                    className="form-control mt-3"
+                    min="0"
+                    name="verticalPosition"
+                    value={
+                      input.verticalPosition ? input.verticalPosition : "0"
+                    }
+                    onChange={handleChange}
+                    placeholder="vertical position text"
+                  />
+                  <label>Word spacing</label>
+                  <TextField
+                    variant="outlined"
+                    type="number"
+                    className="form-control mt-3"
+                    min="0"
+                    name="wordSpacing"
+                    value={input.wordSpacing ? input.wordSpacing : "3"}
+                    onChange={handleChange}
+                    placeholder="word spacing"
+                  />
+
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Pen Color
+                    </InputLabel>
+                    <Select
+                      className="form-control mt-3"
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      label="PenColor"
+                      onChange={color}
+                      value={colorChange.color}
+                      name="penColor"
+                    >
+                      <MenuItem value="#000F55">Blue</MenuItem>
+                      <MenuItem value="#333">Black</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Font
+                    </InputLabel>
+                    <Select
+                      className="form-control mt-3"
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      label="font"
+                      onChange={fontSelect}
+                      value={fontChange.font}
+                      name="font"
+                    >
+                      <MenuItem value="'Fattana'">Fattana</MenuItem>
+                      <MenuItem value="'Homemade Apple', cursive">
+                        Homemade Apple
+                      </MenuItem>
+
+                      <MenuItem value="'new-font'">My Font</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className=" btn btn-primary mb-2"
+                  >
+                    Generate
+                  </Button>
+                </form>
+              </Popover>
+
+              <Photo
+                className="hide-icon"
+                onClick={handleClickPhoto}
+                style={{
+                  fontSize: "30px",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                  marginLeft: "15",
+                }}
+              />
+              <Popover
+                id={idPhoto}
+                open={openPhoto}
+                onClose={handleClosePhoto}
+                anchorEl={anchorElPhoto}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "center",
+                  horizontal: "top",
+                }}
+              >
+                <div className="col output-container">
+                  <div id="output1" className="output">
+                    <img src={output} alt="note" />
+                  </div>
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className="btnn"
+                      style={{ marginTop: "20px" }}
+                      onClick={download}
+                    >
+                      Download note
+                    </Button>
+                  </div>
+                </div>
+              </Popover>
             </div>
           </Grid>
           <Grid
@@ -283,13 +504,20 @@ const FormInput = () => {
             style={{ display: styles.display, background: "white" }}
           >
             <div className="col output-container">
-              <div id="output" className="output">
+              <div
+                id="output"
+                className="output"
+                style={{
+                  display: `${window.innerWidth === 768 ? "none" : "block"}`,
+                }}
+              >
                 <img src={output} alt="note" />
               </div>
               <div>
                 <Button
                   variant="contained"
                   color="secondary"
+                  className="btnn"
                   style={{ marginTop: "20px" }}
                   onClick={download}
                 >
@@ -298,9 +526,9 @@ const FormInput = () => {
               </div>
             </div>
           </Grid>
-          <Grid item xs={2} style={{ background: "white" }}>
+          <Grid item xs={2} style={{ background: "white" }} className="m-input">
             <form
-              className={classes.root}
+              className={`${classes.root} m-form`}
               style={{
                 border: styles.border,
                 background: styles.background,

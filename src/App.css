@@ -290,16 +290,63 @@ body {
   }
 }
 
+#output1 {
+  display: none;
+}
+.hide-icon {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
   .row.responsive-row {
     display: block;
   }
+  .hide-icon {
+    display: block !important;
+  }
   .output {
     margin-top: 20px;
+    display: block !important;
+  }
+  .fixx {
+    position: fixed;
+    background: rgb(189, 0, 189);
+    color: rgb(255, 255, 255) !important;
+    bottom: 150px;
+    padding: 10px;
+    border-radius: 1rem 0rem;
+  }
+  .MuiButton-containedSecondary {
+    display: block !important;
+  }
+
+  .MuiGrid-spacing-xs-2 > .MuiGrid-item {
+    padding: 0px !important;
+  }
+
+  .fl {
+    margin: 0px;
+  }
+  .m-input {
+    display: none;
+  }
+  .page {
+    width: 460px !important;
+  }
+
+  .MuiGrid-grid-xs-5 {
+    max-width: 100% !important;
+  }
+
+  .MuiContainer-root {
+    width: 90% !important;
+    padding-right: 5px !important;
+    padding-left: 0px !important;
   }
   .output-grid .col:first-child {
     overflow-x: scroll;
   }
+
   .output img {
     width: 100%;
   }
