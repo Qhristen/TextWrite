@@ -97,7 +97,6 @@ const FormInput = () => {
         .load()
         .then((loadedFace) => {
           document.fonts.add(loadedFace);
-          setStyles({ fontFamily: "new-font" });
         })
         .catch((e) => console.log(e));
       console.log(newFont);
@@ -373,7 +372,7 @@ const FormInput = () => {
 
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
-                  PenColor
+                  Pen Color
                 </InputLabel>
                 <Select
                   className="form-control mt-3"
@@ -407,7 +406,6 @@ const FormInput = () => {
                     Homemade Apple
                   </MenuItem>
 
-                  <MenuItem value="'Franklin Gothic Medium'">Franklin</MenuItem>
                   <MenuItem value="'new-font'">My Font</MenuItem>
                 </Select>
               </FormControl>
